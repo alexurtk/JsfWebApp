@@ -1,12 +1,15 @@
 package ru.alexurtk;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * Created by alex on 10.04.2018.
  */
 @Named
-public class ExampleBean {
+@SessionScoped
+public class ExampleBean implements Serializable {
     private String text = "CDI Example";
     private String login;
     private String password;
