@@ -14,6 +14,7 @@ import ru.alexurtk.entity.UserEntity;
 /**
  * Created by alex on 11.04.2018.
  */
+@Named
 @Stateless
 public class ExampleCDI {
     private String login;
