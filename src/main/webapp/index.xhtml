@@ -43,11 +43,21 @@
             </p:panelGrid>
             <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
             <p:remoteCommand name="rc" actionListener="#{exampleCDI.startSomething}" />
+            <p:commandButton type="button" onclick="rc()" value="Execute"/>
 
         </h:form>
     </p:panel>
 </h:body>
 <script>
+    var test = 0;
+
+    function rc() {
+        console.log("dsf");
+
+        PF('fileUploadWidget').chooseButton.click();
+
+    }
+
     var triggerValidation;
     window.onload = function () {
         //initially (after page is loaded) trigger validation on Choose btn click
@@ -67,8 +77,25 @@
         console.log("Button clicked");
 
         event.preventDefault();
+        event.stopPropagation();
 
-        console.log("123");
+//
+//        if (test == 0) {
+//
+//
+//            event.preventDefault();
+//            event.stopPropagation();
+//
+//            console.log("123")
+//
+//
+//            PF('fileUploadWidget').chooseButton.click();
+//
+//
+//        }
+
+
+
 
 
 
