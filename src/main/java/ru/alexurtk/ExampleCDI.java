@@ -2,6 +2,8 @@ package ru.alexurtk;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,6 +11,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.event.FileUploadEvent;
 import ru.alexurtk.entity.UserEntity;
 
 /**
@@ -22,6 +25,8 @@ public class ExampleCDI {
 
     private boolean loginSuccess;
     private boolean createSuccess;
+
+    private String size;
 
     @EJB
     private ExampleEJB exampleEJB;
@@ -58,6 +63,14 @@ public class ExampleCDI {
         this.createSuccess = createSuccess;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     public void checkPassword(){
         loginSuccess = exampleEJB.checkPassword(login, password);
     }
@@ -68,5 +81,17 @@ public class ExampleCDI {
 
     public List<UserEntity> getAllUsers(){
         return exampleEJB.getAllUsers();
+    }
+
+    public void uploadFile(FileUploadEvent event){
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect", null));
+
+        System.out.println();
+
+    }
+
+    public void startSomething(){
+        System.out.println();
     }
 }

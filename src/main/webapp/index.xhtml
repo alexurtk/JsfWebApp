@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"-->
+        <!--"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<f:view xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -11,13 +11,92 @@
     <p:panel header="Создание товара">
         <p:panelGrid columns="2">
             <p:column>
-
+                <h:outputText value="Test1"/>
             </p:column>
             <p:column>
-
+                <h:outputText value="Test2"/>
             </p:column>
         </p:panelGrid>
 
+
+        <br/>
+        <br/>
+        <br/>
+
+        <h:form id="form">
+            <p:messages id="messages" autoUpdate="true" showDetail="false"/>
+            <p:panelGrid columns="1">
+                <!--size is integer variable-->
+                <p:inputText id="size" maxlength="3"
+                             value="#{exampleCDI.size}"
+                             required="true" requiredMessage="Size is missing"
+                             onchange="forceValidation();"/>
+
+
+                <p:fileUpload
+                        id="upload"
+                        fileUploadListener="#{exampleCDI.uploadFile}"
+                        multiple="false"
+                        widgetVar="fileUploadWidget"
+                        allowTypes="/(\.|\/)(jpg|png|txt)$/"
+                        invalidFileMessage="incorrect file"/>
+            </p:panelGrid>
+            <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
+            <p:remoteCommand name="rc" actionListener="#{exampleCDI.startSomething}" />
+
+        </h:form>
     </p:panel>
 </h:body>
-</html>
+<script>
+    var triggerValidation;
+    window.onload = function () {
+        //initially (after page is loaded) trigger validation on Choose btn click
+        //define button click listener
+        registerChooseBtnClick();
+    };
+
+    function registerChooseBtnClick() {
+        console.log("lol1");
+        //var chooseBtn = document.getElementsByClassName("ui-fileupload-choose")[0];
+        // or if you define p:upload widgetVar you can use PF function
+        var chooseBtn = PF('fileUploadWidget').chooseButton[0];
+        chooseBtn.addEventListener('click', fnRef, false);
+    }
+
+    var fnRef = function (event) {
+        console.log("Button clicked");
+
+        event.preventDefault();
+
+        console.log("123");
+
+
+
+        if (triggerValidation) {
+            //prevent file browser to open
+
+            //trigger validation via p:remoteCommand;
+            //submitSelection();
+        } else {
+            //File browser will be opened at this point
+        }
+    };
+
+    function checkIfValidationFailed(xhr, status, args) {
+        if (args) {
+            if (args.validationFailed) {
+                console.log("Validation failed");
+                triggerValidation = true;
+            } else {
+                triggerValidation = false;
+            }
+        }
+    }
+
+    //call each time when form input elements (inputText, ...) change value
+    function forceValidation(){
+        triggerValidation = true;
+    }
+
+</script>
+</f:view>
