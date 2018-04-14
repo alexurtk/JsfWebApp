@@ -33,12 +33,12 @@
                              <!--onchange="forceValidation();"/>-->
 
 
-                <h:selectOneMenu id="som1" value="#{selectorView.text3}" required="true" label="Text 3">
-                    <f:selectItem itemLabel="Select One: " itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="Option 1" itemValue="1"/>
-                    <f:selectItem itemLabel="Option 2" itemValue="2"/>
-                    <f:selectItem itemValue="Option 3" itemLabel="3"/>
-                </h:selectOneMenu>
+                <p:selectOneMenu id="som1" widgetVar="yearWV" value="#{selectorView.text3}" required="true" requiredMessage="Выберите группу" label="Text 3">
+                    <f:selectItem itemLabel="Не выбрано" itemValue="" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Группа 1" itemValue="1"/>
+                    <f:selectItem itemLabel="Группа 2" itemValue="2"/>
+                    <f:selectItem itemLabel="Группа 3" itemValue="3"/>
+                </p:selectOneMenu>
 
                 <p:fileUpload
                         id="upload"
@@ -50,7 +50,7 @@
             </p:panelGrid>
             <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
 
-            <p:remoteCommand name="rc" process="@form" actionListener="#{exampleCDI.startSomething}" />
+            <p:remoteCommand name="rc" process="som1"/>
 
             <p:commandButton type="button" onclick="rcc()" value="Execute"/>
 
@@ -80,17 +80,19 @@
         console.log("lol1");
         //var chooseBtn = document.getElementsByClassName("ui-fileupload-choose")[0];
         // or if you define p:upload widgetVar you can use PF function
-        var chooseBtn = PF('fileUploadWidget').chooseButton[0];
-        chooseBtn.addEventListener('click', fnRef, false);
+        PF('fileUploadWidget').chooseButton[0].addEventListener('click', fnRef, false);
+        //chooseBtn.addEventListener('click', fnRef, false);
     }
 
     var fnRef = function (event) {
         console.log("Button clicked");
+        console.log(PF('yearWV').label[0].innerText);
 
-        rc();
-
-        event.preventDefault();
-        event.stopPropagation();
+        if (PF('yearWV').label[0].innerText == "Не выбрано"){
+            rc();
+            event.preventDefault();
+            event.stopPropagation();
+        }
 
 //
 //        if (test == 0) {
