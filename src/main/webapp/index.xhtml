@@ -27,11 +27,18 @@
             <p:messages id="messages" autoUpdate="true" showDetail="false"/>
             <p:panelGrid columns="1">
                 <!--size is integer variable-->
-                <p:inputText id="size" maxlength="3"
-                             value="#{exampleCDI.size}"
-                             required="true" requiredMessage="Size is missing"
-                             onchange="forceValidation();"/>
+                <!--<p:inputText id="size" maxlength="3"-->
+                             <!--value="#{exampleCDI.size}"-->
+                             <!--required="false" requiredMessage="Size is missing"-->
+                             <!--onchange="forceValidation();"/>-->
 
+
+                <h:selectOneMenu id="som1" value="#{selectorView.text3}" required="true" label="Text 3">
+                    <f:selectItem itemLabel="Select One: " itemValue="" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Option 1" itemValue="1"/>
+                    <f:selectItem itemLabel="Option 2" itemValue="2"/>
+                    <f:selectItem itemValue="Option 3" itemLabel="3"/>
+                </h:selectOneMenu>
 
                 <p:fileUpload
                         id="upload"
@@ -42,8 +49,10 @@
                         invalidFileMessage="incorrect file"/>
             </p:panelGrid>
             <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
-            <p:remoteCommand name="rc" actionListener="#{exampleCDI.startSomething}" />
-            <p:commandButton type="button" onclick="rc()" value="Execute"/>
+
+            <p:remoteCommand name="rc" process="@form" actionListener="#{exampleCDI.startSomething}" />
+
+            <p:commandButton type="button" onclick="rcc()" value="Execute"/>
 
         </h:form>
     </p:panel>
@@ -51,10 +60,12 @@
 <script>
     var test = 0;
 
-    function rc() {
+    function rcc() {
         console.log("dsf");
 
-        PF('fileUploadWidget').chooseButton.click();
+
+
+        //PF('fileUploadWidget').chooseButton.click();
 
     }
 
@@ -75,6 +86,8 @@
 
     var fnRef = function (event) {
         console.log("Button clicked");
+
+        rc();
 
         event.preventDefault();
         event.stopPropagation();

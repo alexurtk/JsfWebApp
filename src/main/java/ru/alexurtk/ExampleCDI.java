@@ -92,6 +92,7 @@ public class ExampleCDI {
     }
 
     public void startSomething(){
-        System.out.println();
+        System.out.println("lol");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect", null));
     }
 }
