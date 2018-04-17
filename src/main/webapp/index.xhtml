@@ -57,10 +57,8 @@
 
                 <p:remoteCommand name="rc" process="som1"/>
 
-                <p:commandButton type="button" onclick="rcc()" value="Execute" process="@this"/>
+                <p:commandButton onclick="rcc()" value="Execute" process="@this"/>
 
-                <br/>
-                <p:commandButton type="button" value="testXML" actionListener="#{exampleCDI.downloadXml()}"/>
             </p:panel>
 
             <p:toolbar>
@@ -81,6 +79,9 @@
             <br/>
             <p:remoteCommand name="addMessage" actionListener="#{exampleCDI.addReqMessage}"/>
             <p:commandButton value="test" onclick="tst()"/>
+
+            <br/>
+            <p:commandButton value="testXML" actionListener="#{exampleCDI.downloadXml}"/>
         </h:form>
     </p:panel>
 </h:body>

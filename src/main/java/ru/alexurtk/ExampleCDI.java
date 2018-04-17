@@ -8,10 +8,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Iterator;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -164,23 +163,45 @@ public class ExampleCDI {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Нужно добавить", null));
     }
 
-    public void downloadXml() {
+    public void downloadXml() throws IOException {
+
+        System.out.println("123");
 
         Workbook book = null;
-        try {
-            book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
+        book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
 
-            Sheet sheet = book.getSheet("Настройки");
+        Sheet sheet = book.getSheet("Настройки");
 
-            Row row = sheet.getRow(5);
-            Cell cell = row.getCell(1);
+        Row row = sheet.getRow(5);
+        Cell cell = row.getCell(1);
 
-            cell.setCellValue("1123");
+        cell.setCellValue("1123");
 
-            book.write(new FileOutputStream("test.xlsm"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ///////
+
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+
+        // Get HTTP response
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+        response.reset();   // Reset the response in the first place
+        response.setHeader("Content-Type", "application/xls");
+
+        OutputStream responseOutputStream = response.getOutputStream();
+
+
+        book.write(responseOutputStream);
+
+        responseOutputStream.flush();
+        responseOutputStream.close();
+
+        facesContext.responseComplete();
+
+
+
+
+
 
 
     }
