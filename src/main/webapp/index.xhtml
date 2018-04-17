@@ -24,45 +24,78 @@
         <br/>
 
         <h:form id="form">
-            <p:messages id="messages" autoUpdate="true" showDetail="false"/>
-            <p:panelGrid columns="1">
-                <!--size is integer variable-->
-                <!--<p:inputText id="size" maxlength="3"-->
-                             <!--value="#{exampleCDI.size}"-->
-                             <!--required="false" requiredMessage="Size is missing"-->
-                             <!--onchange="forceValidation();"/>-->
+            <p:panel id="panel" header="Form">
+                <p:messages id="messages" autoUpdate="true" showDetail="false"/>
+                <p:panelGrid columns="1">
+                    <!--size is integer variable-->
+                    <!--<p:inputText id="size" maxlength="3"-->
+                    <!--value="#{exampleCDI.size}"-->
+                    <!--required="false" requiredMessage="Size is missing"-->
+                    <!--onchange="forceValidation();"/>-->
 
 
-                <p:selectOneMenu id="som1" widgetVar="yearWV" value="#{selectorView.text3}" required="true" requiredMessage="Выберите группу" label="Text 3">
-                    <f:selectItem itemLabel="Не выбрано" itemValue="" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="Группа 1" itemValue="1"/>
-                    <f:selectItem itemLabel="Группа 2" itemValue="2"/>
-                    <f:selectItem itemLabel="Группа 3" itemValue="3"/>
-                </p:selectOneMenu>
+                    <p:selectOneMenu id="som1" widgetVar="yearWV" value="#{selectorView.text3}" required="true"
+                                     requiredMessage="Выберите группу" label="Text 3">
+                        <f:selectItem itemLabel="Не выбрано" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Группа 1" itemValue="1"/>
+                        <f:selectItem itemLabel="Группа 2" itemValue="2"/>
+                        <f:selectItem itemLabel="Группа 3" itemValue="3"/>
+                        <!--так можно обновить при изменении-->
+                        <p:ajax event="change"
+                                process="@this"/>
+                    </p:selectOneMenu>
 
-                <p:fileUpload
-                        id="upload"
-                        fileUploadListener="#{exampleCDI.uploadFile}"
-                        multiple="false"
-                        widgetVar="fileUploadWidget"
-                        allowTypes="/(\.|\/)(jpg|png|txt)$/"
-                        invalidFileMessage="incorrect file"/>
-            </p:panelGrid>
-            <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
+                    <p:fileUpload
+                            id="upload"
+                            fileUploadListener="#{exampleCDI.uploadFile}"
+                            multiple="false"
+                            widgetVar="fileUploadWidget"
+                            allowTypes="/(\.|\/)(jpg|png|txt)$/"
+                            invalidFileMessage="incorrect file"/>
+                </p:panelGrid>
+                <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
 
-            <p:remoteCommand name="rc" process="som1"/>
+                <p:remoteCommand name="rc" process="som1"/>
 
-            <p:commandButton type="button" onclick="rcc()" value="Execute"/>
+                <p:commandButton type="button" onclick="rcc()" value="Execute" process="@this"/>
+            </p:panel>
 
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:commandButton update="panel" process="@this" value="Reset Fail" actionListener="#{exampleCDI.resetFail}"/>
+
+                    <p:commandButton value="Reset Tag" update="panel" process="@this" >
+                        <p:resetInput target="panel" />
+                    </p:commandButton>
+
+                    <p:commandButton value="Reset Code" update="panel" process="@this" actionListener="#{exampleCDI.reset}"  style="margin-right:20px;" />
+
+                    <h:commandButton value="Reset p:ajax" style="margin-right:20px;" >
+                        <p:ajax update="panel" resetValues="true" />
+                    </h:commandButton>
+                </f:facet>
+            </p:toolbar>
+            <br/>
+            <p:remoteCommand name="addMessage" actionListener="#{exampleCDI.addReqMessage}"/>
+            <p:commandButton value="test" onclick="tst()"/>
         </h:form>
     </p:panel>
 </h:body>
 <script>
     var test = 0;
 
+    function tst() {
+//            console.log(PF('mySelectValue').jq.find(':checked')[0].value);
+//            console.log($(":checked"));
+
+        addMessage();
+    }
+
     function rcc() {
         console.log("dsf");
 
+        //startSomething();
+        rc();
 
 
         //PF('fileUploadWidget').chooseButton.click();

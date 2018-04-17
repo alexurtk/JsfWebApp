@@ -8,9 +8,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import ru.alexurtk.entity.UserEntity;
 
@@ -25,6 +27,11 @@ public class ExampleCDI {
 
     private boolean loginSuccess;
     private boolean createSuccess;
+
+    private String radioValue;
+    private String radioValue2;
+
+    private String inputText;
 
     private String size;
 
@@ -71,6 +78,30 @@ public class ExampleCDI {
         this.size = size;
     }
 
+    public String getRadioValue() {
+        return radioValue;
+    }
+
+    public void setRadioValue(String radioValue) {
+        this.radioValue = radioValue;
+    }
+
+    public String getRadioValue2() {
+        return radioValue2;
+    }
+
+    public void setRadioValue2(String radioValue2) {
+        this.radioValue2 = radioValue2;
+    }
+
+    public String getInputText() {
+        return inputText;
+    }
+
+    public void setInputText(String inputText) {
+        this.inputText = inputText;
+    }
+
     public void checkPassword(){
         loginSuccess = exampleEJB.checkPassword(login, password);
     }
@@ -94,5 +125,34 @@ public class ExampleCDI {
     public void startSomething(){
         System.out.println("lol");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect", null));
+
+//        FacesMessage msg = new FacesMessage("Model reset, but it won't work properly.");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+        List<FacesMessage> listMsgs = FacesContext.getCurrentInstance().getMessageList();
+        Iterator<FacesMessage> itMsgs = FacesContext.getCurrentInstance().getMessages();
+
+        Iterator<String> itIds = FacesContext.getCurrentInstance().getClientIdsWithMessages();
+
+        while (itIds.hasNext()) {
+            List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList(itIds.next());
+            if (!messageList.isEmpty()) { // if empty, it will be unmodifiable and throw UnsupportedOperationException...
+                messageList.clear();
+            }
+        }
+
+        System.out.println();
+    }
+
+    public void resetFail(){
+        FacesMessage msg = new FacesMessage("Model reset, but it won't work properly.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void reset(){
+        PrimeFaces.current().resetInputs("form:panel");
+    }
+
+    public void addReqMessage(){
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Нужно добавить", null));
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"-->
+<!--"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>WebApp</h:head>
+    <h:body>
+        <h:form id="myFormId">
+            <p:messages id="messages" autoUpdate="true" showDetail="false"/>
+            <p:selectOneRadio id="myRadio" widgetVar="mySelectValue" value="#{exampleCDI.radioValue}">
+                <f:selectItem itemLabel="Xbox One" itemValue="1" />
+                <f:selectItem itemLabel="PS4" itemValue="2" />
+                <f:selectItem itemLabel="Wii U" itemValue="3" />
+            </p:selectOneRadio>
+            <br/>
+            <p:selectOneRadio id="myRadio2" widgetVar="mySelectValue2" value="#{exampleCDI.radioValue2}">
+                <f:selectItem itemLabel="Item One" itemValue="11" />
+                <f:selectItem itemLabel="Item Two" itemValue="22" />
+                <f:selectItem itemLabel="Item Three" itemValue="33" />
+            </p:selectOneRadio>
+            <br/>
+            <p:inputText id="text1" value="#{exampleCDI.inputText}" widgetVar="inText1"/>
+            <br/>
+            <p:remoteCommand name="addMessage" actionListener="#{exampleCDI.addReqMessage}"/>
+            <p:commandButton value="test" onclick="tst()"/>
+        </h:form>
+    </h:body>
+    <script>
+        function tst() {
+//            console.log(PF('mySelectValue').jq.find(':checked')[0].value);
+//            console.log($(":checked"));
+
+            addMessage();
+        }
+
+
+        //jQuery.grep($(":checked"),(el,n)=>{if(el.name.indexOf("myRadio")>0) return true; else return false;})
+
+
+        function testFind(el, num) {
+            if (el.name.indexOf("myRadio2")>0){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+    </script>
+</f:view>
