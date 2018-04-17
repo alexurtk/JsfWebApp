@@ -81,7 +81,18 @@
             <p:commandButton value="test" onclick="tst()"/>
 
             <br/>
-            <p:commandButton value="testXML" actionListener="#{exampleCDI.downloadXml}"/>
+            <p:commandButton value="testXML" action="#{exampleCDI.downloadXml()}"/>
+            <br/>
+            <br/>
+            <br/>
+            <p:commandLink value="download" immediate="true" ajax="false">
+                <p:fileDownload value="#{exampleCDI.streamFile()}" />
+            </p:commandLink>
+            <br/>
+            <p:commandButton value="download2" immediate="true" ajax="false">
+                <p:fileDownload value="#{exampleCDI.streamFile()}" />
+            </p:commandButton>
+            
         </h:form>
     </p:panel>
 </h:body>

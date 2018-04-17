@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,6 +22,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.StreamedContent;
 import ru.alexurtk.entity.UserEntity;
 
 /**
@@ -163,12 +165,20 @@ public class ExampleCDI {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Нужно добавить", null));
     }
 
-    public void downloadXml() throws IOException {
+    public StreamedContent downloadXml() throws IOException {
 
         System.out.println("123");
 
+        return null;
+    }
+
+    public StreamedContent streamFile(){
+        System.out.println("123");
+
         Workbook book = null;
-        book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
+        try {
+            book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
+
 
         Sheet sheet = book.getSheet("Настройки");
 
@@ -185,24 +195,41 @@ public class ExampleCDI {
         // Get HTTP response
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
-        response.reset();   // Reset the response in the first place
-        response.setHeader("Content-Type", "application/xls");
+        //response.reset();   // Reset the response in the first place
+//        response.setHeader("Content-Type", "application/xls");
+        response.setHeader("Content-Disposition", "attachment; filename="+"reference1.xlsm");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        response.setContentType("application/octet-stream");
 
-        OutputStream responseOutputStream = response.getOutputStream();
+        response.flushBuffer();
+
+//        IOUtils.copy(str)
+        book.write(response.getOutputStream());
+
+            //todo выяснить причину возникновения ошибки
+            // Caused by: java.lang.IllegalStateException: UT010006: Cannot call getWriter(), getOutputStream() already called
+            //если пошагово пройтись, то не возникает, появляется если запустить без остановок
+
+//        OutputStream responseOutputStream = response.getOutputStream();
 
 
-        book.write(responseOutputStream);
-
-        responseOutputStream.flush();
-        responseOutputStream.close();
-
-        facesContext.responseComplete();
-
-
+//        book.write(responseOutputStream);
+//
+//        responseOutputStream.flush();
+//        responseOutputStream.close();
+//
+//        facesContext.responseComplete();
 
 
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+
+
+
+        return null;
 
     }
 }
