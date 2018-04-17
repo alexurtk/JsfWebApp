@@ -8,9 +8,17 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
 import ru.alexurtk.entity.UserEntity;
 
@@ -93,5 +101,19 @@ public class ExampleCDI {
 
     public void startSomething(){
         System.out.println();
+    }
+
+    public void downloadXml() throws IOException {
+
+        Workbook book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
+
+        Sheet sheet = book.getSheet("Настройки");
+
+        Row row = sheet.getRow(5);
+        Cell cell = row.getCell(1);
+
+        cell.setCellValue("1123");
+
+        book.write(new FileOutputStream("test.xlsm"));
     }
 }

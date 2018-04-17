@@ -44,6 +44,8 @@
             <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
             <p:remoteCommand name="rc" actionListener="#{exampleCDI.startSomething}" />
             <p:commandButton type="button" onclick="rc()" value="Execute"/>
+            <br/>
+            <p:commandButton type="button" value="testXML" actionListener="#{exampleCDI.downloadXml()}"/>
 
         </h:form>
     </p:panel>
