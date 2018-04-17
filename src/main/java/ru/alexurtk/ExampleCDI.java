@@ -164,17 +164,24 @@ public class ExampleCDI {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Нужно добавить", null));
     }
 
-    public void downloadXml() throws IOException {
+    public void downloadXml() {
 
-        Workbook book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
+        Workbook book = null;
+        try {
+            book = new XSSFWorkbook(new FileInputStream("reference.xlsm"));
 
-        Sheet sheet = book.getSheet("Настройки");
+            Sheet sheet = book.getSheet("Настройки");
 
-        Row row = sheet.getRow(5);
-        Cell cell = row.getCell(1);
+            Row row = sheet.getRow(5);
+            Cell cell = row.getCell(1);
 
-        cell.setCellValue("1123");
+            cell.setCellValue("1123");
 
-        book.write(new FileOutputStream("test.xlsm"));
+            book.write(new FileOutputStream("test.xlsm"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
