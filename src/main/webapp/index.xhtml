@@ -77,9 +77,9 @@
                 </f:facet>
             </p:toolbar>
             <br/>
+            <p:commandButton type="button" value="testXML" actionListener="#{exampleCDI.downloadXml()}"/>
             <p:remoteCommand name="addMessage" actionListener="#{exampleCDI.addReqMessage}"/>
             <p:commandButton value="test" onclick="tst()"/>
-
             <br/>
             <p:commandButton value="testXML" action="#{exampleCDI.downloadXml()}"/>
             <br/>
@@ -92,7 +92,26 @@
             <p:commandButton value="download2" immediate="true" ajax="false">
                 <p:fileDownload value="#{exampleCDI.streamFile()}" />
             </p:commandButton>
-            
+            <br/>
+            <br/>
+            <p:dataTable var="car" value="#{dtBasicView.cars}">
+                <p:column headerText="Id">
+                    <h:outputText value="#{car.id}" />
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.year}" />
+                </p:column>
+
+                <p:column headerText="Brand">
+                    <h:outputText value="#{car.brand}" />
+                </p:column>
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{car.color}" />
+                </p:column>
+            </p:dataTable>
+
         </h:form>
     </p:panel>
 </h:body>
