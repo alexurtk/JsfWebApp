@@ -45,13 +45,14 @@
                                 process="@this"/>
                     </p:selectOneMenu>
 
-                    <p:fileUpload
-                            id="upload"
-                            fileUploadListener="#{exampleCDI.uploadFile}"
-                            multiple="false"
-                            widgetVar="fileUploadWidget"
-                            allowTypes="/(\.|\/)(jpg|png|txt)$/"
-                            invalidFileMessage="incorrect file"/>
+                    <!--<p:fileUpload-->
+                            <!--id="upload"-->
+                            <!--fileUploadListener="#{exampleCDI.uploadFile}"-->
+                            <!--multiple="false"-->
+                            <!--widgetVar="fileUploadWidget"-->
+                            <!--allowTypes="/(\.|\/)(jpg|png|txt)$/"-->
+                            <!--rendered="false"-->
+                            <!--invalidFileMessage="incorrect file"/>-->
                 </p:panelGrid>
                 <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
 
@@ -111,6 +112,18 @@
                     <h:outputText value="#{car.color}" />
                 </p:column>
             </p:dataTable>
+            <br/>
+            <!--<p:commandLink value="Sign in" immediate="true" ajax="false">-->
+
+            <!--</p:commandLink>-->
+            <!--<p:fileUpload-->
+                    <!--id="upload"-->
+                    <!--fileUploadListener="#{exampleCDI.uploadFile}"-->
+                    <!--multiple="false"-->
+                    <!--widgetVar="fileUploadWidget"-->
+                    <!--allowTypes="/(\.|\/)(jpg|png|txt)$/"-->
+                    <!--invalidFileMessage="incorrect file"/>-->
+
 
         </h:form>
     </p:panel>
@@ -120,7 +133,7 @@
 
     function tst() {
 //            console.log(PF('mySelectValue').jq.find(':checked')[0].value);
-//            console.log($(":checked"));
+//            console.log($(":checked"));   onclick="rcc()"
 
         addMessage();
     }
@@ -129,10 +142,10 @@
         console.log("dsf");
 
         //startSomething();
-        rc();
+        //rc();
 
 
-        //PF('fileUploadWidget').chooseButton.click();
+        PF('fileUploadWidget').chooseButton.click();
 
     }
 
