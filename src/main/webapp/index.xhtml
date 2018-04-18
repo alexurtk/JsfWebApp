@@ -46,6 +46,25 @@
             <p:commandButton type="button" onclick="rc()" value="Execute"/>
             <br/>
             <p:commandButton type="button" value="testXML" actionListener="#{exampleCDI.downloadXml()}"/>
+            <br/>
+            <br/>
+            <p:dataTable var="car" value="#{dtBasicView.cars}">
+                <p:column headerText="Id">
+                    <h:outputText value="#{car.id}" />
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.year}" />
+                </p:column>
+
+                <p:column headerText="Brand">
+                    <h:outputText value="#{car.brand}" />
+                </p:column>
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{car.color}" />
+                </p:column>
+            </p:dataTable>
 
         </h:form>
     </p:panel>
