@@ -44,6 +44,17 @@ public class ExampleCDI {
 
     private String size;
 
+    private String uploadFile;
+    private String handleFileUpload;
+
+    public String getHandleFileUpload() {
+        return handleFileUpload;
+    }
+
+    public void setHandleFileUpload(String handleFileUpload) {
+        this.handleFileUpload = handleFileUpload;
+    }
+
     @EJB
     private ExampleEJB exampleEJB;
 
@@ -87,6 +98,14 @@ public class ExampleCDI {
         this.size = size;
     }
 
+    public String getUploadFile() {
+        return uploadFile;
+    }
+
+    public void setUploadFile(String uploadFile) {
+        this.uploadFile = uploadFile;
+    }
+
     public String getRadioValue() {
         return radioValue;
     }
@@ -123,7 +142,7 @@ public class ExampleCDI {
         return exampleEJB.getAllUsers();
     }
 
-    public void uploadFile(FileUploadEvent event){
+    public void handleFileUpload(FileUploadEvent event){
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect", null));
 

@@ -45,14 +45,14 @@
                                 process="@this"/>
                     </p:selectOneMenu>
 
-                    <!--<p:fileUpload-->
-                            <!--id="upload"-->
-                            <!--fileUploadListener="#{exampleCDI.uploadFile}"-->
-                            <!--multiple="false"-->
-                            <!--widgetVar="fileUploadWidget"-->
-                            <!--allowTypes="/(\.|\/)(jpg|png|txt)$/"-->
-                            <!--rendered="false"-->
-                            <!--invalidFileMessage="incorrect file"/>-->
+                    <p:fileUpload
+                            id="upload"
+                            fileUploadListener="#{exampleCDI.handleFileUpload}"
+                            multiple="false"
+                            auto="true"
+                            widgetVar="fileUploadWidget"
+                            allowTypes="/(\.|\/)(jpg|png|txt)$/"
+                            invalidFileMessage="incorrect file"/>
                 </p:panelGrid>
                 <p:remoteCommand name="startSomething" action="#{exampleCDI.startSomething()}"/>
 
@@ -95,7 +95,8 @@
             </p:commandButton>
             <br/>
             <br/>
-            <p:dataTable var="car" value="#{dtBasicView.cars}">
+            <p:dataTable var="car"
+                         value="#{dtBasicView.cars}">
                 <p:column headerText="Id">
                     <h:outputText value="#{car.id}" />
                 </p:column>
@@ -110,6 +111,13 @@
 
                 <p:column headerText="Color">
                     <h:outputText value="#{car.color}" />
+                </p:column>
+
+                <p:column headerText="Button">
+                    <p:commandButton value="test">
+                        <f:setPropertyActionListener value="#{car}" target="#{dtBasicView.selectedCar}"/>
+
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
             <br/>

@@ -6,9 +6,11 @@ import ru.alexurtk.service.CarService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 
 @ManagedBean(name="dtBasicView")
@@ -16,6 +18,8 @@ import javax.faces.bean.ViewScoped;
 public class BasicView implements Serializable {
 
     private List<Car> cars;
+
+    private Car selectedCar;
 
     @ManagedProperty("#{carService}")
     private CarService service;
@@ -31,5 +35,18 @@ public class BasicView implements Serializable {
 
     public void setService(CarService service) {
         this.service = service;
+    }
+
+    public Car getSelectedCar() {
+        return selectedCar;
+    }
+
+    public void setSelectedCar(Car selectedCar) {
+        this.selectedCar = selectedCar;
+    }
+
+    public void pressBtn(){
+        System.out.println(123);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, selectedCar.getId()+" "+selectedCar.getBrand(), null));
     }
 }
