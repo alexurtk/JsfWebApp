@@ -78,7 +78,7 @@
                 </f:facet>
             </p:toolbar>
             <br/>
-            <p:commandButton type="button" value="testXML" actionListener="#{exampleCDI.downloadXml()}"/>
+            <p:commandButton value="testXML" actionListener="#{exampleCDI.downloadXml()}"/>
             <p:remoteCommand name="addMessage" actionListener="#{exampleCDI.addReqMessage}"/>
             <p:commandButton value="test" onclick="tst()"/>
             <br/>
@@ -133,6 +133,13 @@
                     <!--invalidFileMessage="incorrect file"/>-->
 
 
+            <p:inputTextarea
+                id="textAreaIn"
+                widgetVar="textAreaIn"
+                required="true"
+                requiredMessage="Не заполнено"
+                value="#{exampleCDI.textArea}"/>
+            <p:commandButton value="TestTEXT" process="@this textAreaIn" onclick="tst()"/>
         </h:form>
     </p:panel>
 </h:body>

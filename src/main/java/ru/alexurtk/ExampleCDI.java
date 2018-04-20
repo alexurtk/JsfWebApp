@@ -47,6 +47,16 @@ public class ExampleCDI {
     private String uploadFile;
     private String handleFileUpload;
 
+    private String textArea;
+
+    public String getTextArea() {
+        return textArea;
+    }
+
+    public void setTextArea(String textArea) {
+        this.textArea = textArea;
+    }
+
     public String getHandleFileUpload() {
         return handleFileUpload;
     }
