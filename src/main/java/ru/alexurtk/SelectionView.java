@@ -104,10 +104,21 @@ public class SelectionView implements Serializable {
     }
 
     public void uploadFile(FileUploadEvent event){
+        Car foo = (Car) event.getComponent().getAttributes().get("foo");
 
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "LOL2: "+selectedCar.getId(), null);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "LOL2: "+foo.getId()+" "+foo.getBrand(), null);
 
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         System.out.println();
+    }
+
+
+
+    public void setSelCar(Car car){
+        this.selectedCar = car;
+
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "LOL1: "+selectedCar.getId(), null);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
 

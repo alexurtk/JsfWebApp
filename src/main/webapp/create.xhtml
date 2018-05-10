@@ -41,10 +41,23 @@
                 <h:outputText value="#{car.color}" />
             </p:column>
             <p:column style="width:32px;text-align: center">
-                <p:commandButton update=":form:carDetail" oncomplete="test1()" icon="ui-icon-search" title="View">
+                <p:commandButton oncomplete="test1()" icon="ui-icon-search" title="View">
                     <f:setPropertyActionListener value="#{car}" target="#{dtSelectionView.selectedCar}" />
                     <p:remoteCommand name="testt" actionListener="#{dtSelectionView.testt}"/>
                 </p:commandButton>
+            </p:column>
+            <p:column headerText="Test">
+                <p:fileUpload
+                        id="upload"
+                        fileUploadListener="#{dtSelectionView.uploadFile}"
+                        update="@this,basicDT"
+                        mode="advanced"
+                        multiple="false"
+                        auto="true"
+                        allowTypes="/(\.|\/)(jpg|png|txt)$/"
+                        invalidFileMessage="incorrect file">
+                    <f:attribute name="foo" value="#{car}"/>
+                </p:fileUpload>
             </p:column>
         </p:dataTable>
         <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
