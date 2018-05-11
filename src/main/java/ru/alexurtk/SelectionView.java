@@ -3,6 +3,8 @@ package ru.alexurtk;
 /**
  * Created by alex on 10.05.2018.
  */
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -11,10 +13,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+import org.primefaces.model.StreamedContent;
 import ru.alexurtk.entity.Car;
 import ru.alexurtk.service.CarService;
 
@@ -126,6 +135,42 @@ public class SelectionView implements Serializable {
 
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "LOL1: "+selectedCar.getId(), null);
         FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+
+
+    public StreamedContent streamFile(){
+        addCar();
+
+        System.out.println("123");
+
+        Workbook book = null;
+        try {
+            book = new XSSFWorkbook(new FileInputStream("reference.xlsm")); //wildfly-12.0.0.Final\wildfly-12.0.0.Final\bin
+
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+
+            // Get HTTP response
+            HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+            //response.reset();   // Reset the response in the first place
+//        response.setHeader("Content-Type", "application/xls");
+            response.setHeader("Content-Disposition", "attachment; filename="+"reference1.xlsm");
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setContentType("application/octet-stream");
+
+            response.flushBuffer();
+
+            book.write(response.getOutputStream());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        return null;
 
     }
 

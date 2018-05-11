@@ -24,7 +24,10 @@
         </h:panelGrid>
         <br/>
         <p:growl id="msgs" showDetail="true" />
-        <p:commandButton value="UpdateTable" actionListener="#{dtSelectionView.addCar()}" update="@form, basicDT, tabSize"/>
+        <p:commandButton value="UpdateTable" actionListener="#{dtSelectionView.addCar()}" update="basicDT, tabSize"/>
+        <p:commandButton value="Скачать" update="basicDT, tabSize" immediate="true" ajax="false">
+            <p:fileDownload value="#{dtSelectionView.streamFile()}"/>
+        </p:commandButton>
         <h:outputText id="tabSize" value="#{dtSelectionView.cars1.size()}"/>
         <p:dataTable id="basicDT" var="car" value="#{dtSelectionView.cars1}">
             <f:facet name="header">
