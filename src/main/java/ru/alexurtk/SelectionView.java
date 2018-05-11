@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -119,6 +120,11 @@ public class SelectionView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void testEmpty() {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "LOL TEST", null);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public void uploadFile(FileUploadEvent event){
         Car foo = (Car) event.getComponent().getAttributes().get("foo");
 
@@ -138,11 +144,20 @@ public class SelectionView implements Serializable {
 
     }
 
+    public void justTest(){
+        System.out.println("cars1.size(): "+cars1.size());
+    }
+
 
     public StreamedContent streamFile(){
         addCar();
 
+        System.out.println("cars1.size(): "+cars1.size());
         System.out.println("123");
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("@form");
+        context.update("basicDT");
 
         Workbook book = null;
         try {
@@ -164,7 +179,7 @@ public class SelectionView implements Serializable {
             book.write(response.getOutputStream());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("error");
         }
 
 

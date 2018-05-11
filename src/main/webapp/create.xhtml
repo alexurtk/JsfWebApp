@@ -11,6 +11,9 @@
 </h:head>
 <h:body>
     <h:form id="form">
+        <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false">
+            Downloading...
+        </p:dialog>
         <p:messages id="messages" autoUpdate="true" showDetail="false"/>
         <h:panelGrid columns="2">
             <h:outputText value="Login: "/>
@@ -25,9 +28,12 @@
         <br/>
         <p:growl id="msgs" showDetail="true" />
         <p:commandButton value="UpdateTable" actionListener="#{dtSelectionView.addCar()}" update="basicDT, tabSize"/>
-        <p:commandButton value="Скачать" update="basicDT, tabSize" immediate="true" ajax="false">
+        <p:commandButton value="Скачать"
+                         onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                         ajax="false">
             <p:fileDownload value="#{dtSelectionView.streamFile()}"/>
         </p:commandButton>
+        <p:remoteCommand name="stops" uactionListener="#{dtSelectionView.testEmpty}"/>
         <h:outputText id="tabSize" value="#{dtSelectionView.cars1.size()}"/>
         <p:dataTable id="basicDT" var="car" value="#{dtSelectionView.cars1}">
             <f:facet name="header">
@@ -91,6 +97,12 @@
 <script>
     function test1() {
         testt();
+    }
+    function showStatus() {
+        PF('statusDialog').show();
+    }
+    function hideStatus() {
+        PF('statusDialog').hide();
     }
 
 </script>
