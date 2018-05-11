@@ -48,6 +48,13 @@ public class SelectionView implements Serializable {
         return cars1;
     }
 
+
+    public void addCar(){
+        cars1.add(service.getRandomCar());
+        System.out.println(cars1.size());
+    }
+
+
     public List<Car> getCars2() {
         return cars2;
     }

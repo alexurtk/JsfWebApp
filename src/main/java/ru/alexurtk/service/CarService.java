@@ -53,6 +53,10 @@ public class CarService {
         return list;
     }
 
+    public Car getRandomCar(){
+        return new Car(getRandomId(), getRandomBrand(), getRandomYear(), null, null, getRandomSoldState());
+    }
+
     private String getRandomId() {
         return UUID.randomUUID().toString().substring(0, 8);
     }

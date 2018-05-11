@@ -24,6 +24,8 @@
         </h:panelGrid>
         <br/>
         <p:growl id="msgs" showDetail="true" />
+        <p:commandButton value="UpdateTable" actionListener="#{dtSelectionView.addCar()}" update="@form, basicDT, tabSize"/>
+        <h:outputText id="tabSize" value="#{dtSelectionView.cars1.size()}"/>
         <p:dataTable id="basicDT" var="car" value="#{dtSelectionView.cars1}">
             <f:facet name="header">
                 Basic
@@ -41,7 +43,7 @@
                 <h:outputText value="#{car.color}" />
             </p:column>
             <p:column style="width:32px;text-align: center">
-                <p:commandButton oncomplete="test1()" icon="ui-icon-search" title="View">
+                <p:commandButton oncomplete="test1()" icon="ui-icon-search" title="View" update="basicDT">
                     <f:setPropertyActionListener value="#{car}" target="#{dtSelectionView.selectedCar}" />
                     <p:remoteCommand name="testt" actionListener="#{dtSelectionView.testt}"/>
                 </p:commandButton>
