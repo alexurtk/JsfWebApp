@@ -35,25 +35,51 @@
         </p:commandButton>
         <p:remoteCommand name="stops" uactionListener="#{dtSelectionView.testEmpty}"/>
         <h:outputText id="tabSize" value="#{dtSelectionView.cars1.size()}"/>
+        <br/>
+        <p:commandButton value="TestServerUpdate1" actionListener="#{dtSelectionView.testBackUpdate1()}"/>
+        <p:commandButton value="TestServerUpdate2" actionListener="#{dtSelectionView.testBackUpdate2()}"/>
+        <p:commandButton value="TestServerUpdate3" actionListener="#{dtSelectionView.testBackUpdate3()}"/>
+        <br/>
+        <h:panelGrid columns="2">
+            <h:outputText value="Телфон:"/>
+            <p:inputMask mask="+7(999)999-99-99"
+                         id="phoneNumber"
+                         onkeyup="formatUniPhoneNumber()"
+                         onmouseup="formatUniPhoneNumber()"
+                         onmouseout="mouseout()"
+                         value="#{dtSelectionView.mobilePhone}">
+                <p:ajax event="change"
+                        update="testPhoneButton"/>
+            </p:inputMask>
+            <p:remoteCommand name="remoteCheckPhone" immediate="true" actionListener="#{dtSelectionView.checkPhone()}"/>
+            <p:remoteCommand name="remoteBlock" update="testPhoneButton" immediate="true" actionListener="#{dtSelectionView.block()}"/>
+        </h:panelGrid>
+        <p:commandButton value="TestPhoneButton"
+                         id="testPhoneButton"
+                         disabled="#{dtSelectionView.checkPhone()}"/>
+        <p:commandButton value="TestServerUpdate3" actionListener="#{dtSelectionView.addCar()}"/>
         <p:dataTable id="basicDT" var="car" value="#{dtSelectionView.cars1}">
             <f:facet name="header">
                 Basic
             </f:facet>
+            <p:column headerText="Test">
+                <p:graphicImage value="resources/images/previous_16.png"/>
+            </p:column>
             <p:column headerText="Id">
-                <h:outputText value="#{car.id}" />
+                <h:outputText value="#{car.id}"/>
             </p:column>
             <p:column headerText="Year">
-                <h:outputText value="#{car.year}" />
+                <h:outputText value="#{car.year}"/>
             </p:column>
             <p:column headerText="Brand">
-                <h:outputText value="#{car.brand}" />
+                <h:outputText value="#{car.brand}"/>
             </p:column>
             <p:column headerText="Color">
-                <h:outputText value="#{car.color}" />
+                <h:outputText value="#{car.color}"/>
             </p:column>
             <p:column style="width:32px;text-align: center">
                 <p:commandButton oncomplete="test1()" icon="ui-icon-search" title="View" update="basicDT">
-                    <f:setPropertyActionListener value="#{car}" target="#{dtSelectionView.selectedCar}" />
+                    <f:setPropertyActionListener value="#{car}" target="#{dtSelectionView.selectedCar}"/>
                     <p:remoteCommand name="testt" actionListener="#{dtSelectionView.testt}"/>
                 </p:commandButton>
             </p:column>
@@ -61,7 +87,7 @@
                 <p:fileUpload
                         id="upload"
                         fileUploadListener="#{dtSelectionView.uploadFile}"
-                        update="@this,basicDT"
+                        update="@this"
                         mode="advanced"
                         multiple="false"
                         auto="true"
@@ -104,6 +130,51 @@
     function hideStatus() {
         PF('statusDialog').hide();
     }
+
+    function mouseout() {
+//        console.log($('[id$=phoneNumber]').val());
+        checkValue($('[id$=phoneNumber]').val());
+    }
+
+    function formatUniPhoneNumber() {
+//        console.log($('[id$=phoneNumber]').val());
+        checkValue($('[id$=phoneNumber]').val());
+
+        function formatUniPhoneNumber(){
+            var data = e.originalEvent.clipboardData.getData('Text');
+            if (data != null) {
+                switch (data.charAt(0)) {
+                    case '+': {
+                        return data.substring(2, data.length);
+                    }
+                    case '8': {
+                        return data.substring(1, data.length);
+                    }
+                    case '9': {
+                        return data;
+                    }
+                    case '7': {
+                        return data.substring(1, data.length);
+                    }
+                }
+            }
+        }
+
+        $('[id$=phoneNumber]').bind('paste', function (e) {
+            $('[id$=phoneNumber]').val(formatPhoneNumber(e));
+        })
+    }
+
+    function checkValue(val) {
+        if (val == "" || val == "+7(___)___-__-__"){
+            console.log("block "+val);
+            remoteBlock();
+        }
+    }
+
+
+
+
 
 </script>
 

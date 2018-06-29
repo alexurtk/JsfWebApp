@@ -15,11 +15,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
@@ -40,28 +42,66 @@ public class SelectionView implements Serializable {
     private List<Car> cars6;
     private Car selectedCar;
     private List<Car> selectedCars;
+    private String testImg;
+    private String mobilePhone;
 
     @ManagedProperty("#{carService}")
     private CarService service;
 
     @PostConstruct
     public void init() {
-        cars1 = service.createCars(10);
+        cars1 = service.createCars(4);
         cars2 = service.createCars(10);
         cars3 = service.createCars(10);
         cars4 = service.createCars(10);
         cars5 = service.createCars(10);
         cars6 = service.createCars(10);
+        testImg = "<br><img src=\"previous_16.png\"/>";
     }
 
     public List<Car> getCars1() {
         return cars1;
     }
 
+    public String getMobilePhone() {
+        System.out.println("getMobilePhone "+mobilePhone);
+        return mobilePhone;
+    }
+
+    public boolean checkPhone(){
+        System.out.println("mobilePhone "+mobilePhone);
+        return StringUtils.isEmpty(mobilePhone);
+    }
+
+    public void block(){
+        System.out.println("block "+mobilePhone);
+        mobilePhone = "";
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        System.out.println("getMobilePhone "+mobilePhone);
+        this.mobilePhone = mobilePhone;
+    }
 
     public void addCar(){
         cars1.add(service.getRandomCar());
         System.out.println(cars1.size());
+    }
+
+    public void testBackUpdate1(){
+//        addCar();
+        PrimeFaces.current().ajax().update("form:basicDT");
+    }
+
+    public void testBackUpdate2(){
+//        addCar();
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("form:basicDT");
+    }
+
+    public void testBackUpdate3(){
+//        addCar();
+        PrimeFaces.current().ajax().update("form:basicDT");
+
     }
 
 
@@ -95,6 +135,14 @@ public class SelectionView implements Serializable {
 
     public void setSelectedCar(Car selectedCar) {
         this.selectedCar = selectedCar;
+    }
+
+    public String getTestImg() {
+        return testImg;
+    }
+
+    public void setTestImg(String testImg) {
+        this.testImg = testImg;
     }
 
     public List<Car> getSelectedCars() {
