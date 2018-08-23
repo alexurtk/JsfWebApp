@@ -15,6 +15,48 @@
             Downloading...
         </p:dialog>
         <p:messages id="messages" autoUpdate="true" showDetail="false"/>
+        <br/>
+        <br/>
+
+        <h:outputLabel for="testNumber" value="Number:" style="font-weight:bold"/>
+        <p:inputText id="testNumber" value="#{dtSelectionView.intValue}" label="Number" validatorMessage="Согласай выплату!">
+            <f:validateDoubleRange minimum="0" maximum="#{dtSelectionView.maxIntValue}" />
+        </p:inputText>
+        <p:commandButton value="Ajax" process="testNumber" update="testNumber" icon="ui-icon-check" validateClient="true" style="margin-right:10px"/>
+        <br/>
+
+        <p:panelGrid columns="2">
+            <p:selectBooleanCheckbox id="chb"/>
+            <h:outputText id="outt" value="Выплата согласована"/>
+            <h:outputText for="chb" value=""/>
+            <h:outputText for="outt" value="Иванов Иван Иванович"/>
+        </p:panelGrid>
+        <br/>
+        <p:selectOneMenu
+                id="SOM"
+                value="#{dtSelectionView.testSOM}"
+                requiredMessage="Нужно поле"
+                required="true">
+            <f:selectItem itemLabel="Не выбрано" itemValue="#{null}"/>
+            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+            <f:selectItem itemLabel="PS4" itemValue="PS4" />
+            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+        </p:selectOneMenu>
+        <p:commandButton value="check SOM" process="SOM" update="SOM" icon="ui-icon-check" validateClient="true" style="margin-right:10px"/>
+
+        <br/>
+        <h:outputLabel value="testMinMax" style="font-weight:bold"/>
+        <p:inputText maxlength="6" id="testMinMax"
+        validatorMessage="Мало символов">
+            <f:validateLength minimum="6"/>
+        </p:inputText>
+        <p:commandButton value="check testMinMax" process="testMinMax" update="testMinMax" icon="ui-icon-check" validateClient="true" style="margin-right:10px"/>
+
+
+
+
+        <br/>
+        <br/>
         <h:panelGrid columns="2">
             <h:outputText value="Login: "/>
             <h:inputText value="#{exampleCDI.login}" />
@@ -25,6 +67,8 @@
             <h:outputText value="Action: "/>
             <h:commandLink value="Create" action="#{exampleCDI.createUser()}"/>
         </h:panelGrid>
+        <h:outputText value="Login: "/>
+        <h:inputText value="#{exampleCDI.login}" />
         <br/>
         <p:growl id="msgs" showDetail="true" />
         <p:commandButton value="UpdateTable" actionListener="#{dtSelectionView.addCar()}" update="basicDT, tabSize"/>
@@ -38,7 +82,7 @@
         <br/>
         <p:commandButton value="TestServerUpdate1" actionListener="#{dtSelectionView.testBackUpdate1()}"/>
         <p:commandButton value="TestServerUpdate2" actionListener="#{dtSelectionView.testBackUpdate2()}"/>
-        <p:commandButton value="TestServerUpdate3" actionListener="#{dtSelectionView.testBackUpdate3()}"/>
+        <p:commandButton value="TestServerUpdate3" actionListener="#{dtSelectionView.testBackUpdate3()}" style="background: red"/>
         <br/>
         <h:panelGrid columns="2">
             <h:outputText value="Телфон:"/>
@@ -54,6 +98,88 @@
             <p:remoteCommand name="remoteCheckPhone" immediate="true" actionListener="#{dtSelectionView.checkPhone()}"/>
             <p:remoteCommand name="remoteBlock" update="testPhoneButton" immediate="true" actionListener="#{dtSelectionView.block()}"/>
         </h:panelGrid>
+
+        <h:panelGrid columns="2">
+            <p:outputLabel for="console" value="console: " />
+            <p:outputLabel for="phone" value="Phone:" />
+            <p:selectOneMenu id="console" style="width:125px">
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+            </p:selectOneMenu>
+            <p:inputMask id="phone" mask="(999) 999-9999"/>
+        </h:panelGrid>
+
+
+        <p:selectManyMenu id="advanced" value="#{dtSelectionView.selectedThemes}"
+                          var="t" filter="true" filterMatchMode="contains" showCheckbox="true">
+            <f:selectItems value="#{dtSelectionView.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme}" />
+
+            <p:column>
+                <h:outputText styleClass="ui-theme ui-theme-#{t.name}" />
+            </p:column>
+
+            <p:column>
+                <h:outputText value="#{t.displayName}" />
+            </p:column>
+        </p:selectManyMenu>
+
+        <p:commandButton value="Submit" icon="ui-icon-check" actionListener="#{dtSelectionView.submitThemes()}"/>
+        <br/>
+        <br/>
+        <h:panelGrid columns="2">
+            <h:outputText value="ID: "/>
+            <h:inputText id="inputID" value="#{dtSelectionView.id}" >
+                <f:ajax event="keyup" onevent="tstUpdaBtn()" execute="@this"/>
+                <f:ajax event="blur" onevent="tstUpdaBtn()"/>
+            </h:inputText>
+            <h:outputText value="Name: "/>
+            <h:inputText id="inputName" value="#{dtSelectionView.name}"/>
+            <p:commandButton id="tstUpBtn"
+                             disabled="#{dtSelectionView.tstBtnDisabled}"
+                             value="check Btn Update" style="margin-right:10px"/>
+        </h:panelGrid>
+        <p:remoteCommand name="tstUpdaBtn" update="tstUpBtn"/>
+        <br/>
+        <br/>
+        <p:dataTable id="cars2" var="car" rowKey="#{car.id}" value="#{dtSelectionView.cars2}" editable="true" editMode="cell" widgetVar="cellCars">
+
+            <p:ajax event="cellEdit" listener="#{dtSelectionView.onCellEdit}" update=":form:msgs" />
+
+            <p:column headerText="Id">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{car.id}" /></f:facet>
+                    <f:facet name="input"><p:inputText id="modelInput" value="#{car.id}" style="width:96%"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Year">
+                <h:outputText value="#{car.year}" />
+            </p:column>
+        </p:dataTable>
+
+
+        <p:contextMenu for="cars2" widgetVar="cMenu">
+            <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellCars').showCellEditor();return false;"/>
+            <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>
+        </p:contextMenu>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+            <p:selectBooleanCheckbox id="basicChb" />
+            <p:outputLabel value="Basic" />
+
+
+            <p:selectBooleanCheckbox id="ajaxChb">
+            </p:selectBooleanCheckbox>
+            <p:outputLabel value="Ajax" />
+        </h:panelGrid>
+
+
         <p:commandButton value="TestPhoneButton"
                          id="testPhoneButton"
                          disabled="#{dtSelectionView.checkPhone()}"/>

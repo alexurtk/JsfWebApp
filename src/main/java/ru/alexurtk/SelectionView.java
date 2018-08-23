@@ -6,6 +6,7 @@ package ru.alexurtk;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -23,11 +24,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.StreamedContent;
 import ru.alexurtk.entity.Car;
+import ru.alexurtk.entity.Theme;
 import ru.alexurtk.service.CarService;
 
 @ManagedBean(name="dtSelectionView")
@@ -44,12 +47,46 @@ public class SelectionView implements Serializable {
     private List<Car> selectedCars;
     private String testImg;
     private String mobilePhone;
+    private List<Theme> selectedThemes;
+    private List<Theme> themes;
+    private Integer intValue;
+    private String maxIntValue;
+    private String testSOM;
+
+
+    /****/
+    private String id;
+    private String name;
+
+    public String getId() { return id;}
+
+    public void setId(String id) { this.id = id;
+        if(this.id.equals("1"))
+            name = "Cesar";
+        else
+            name = "Loachamin";
+    }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public boolean isTstBtnDisabled(){
+        return StringUtils.isEmpty(id);
+    }
+    /****/
+
+
+
 
     @ManagedProperty("#{carService}")
     private CarService service;
 
     @PostConstruct
     public void init() {
+
+        maxIntValue = "10";
+
         cars1 = service.createCars(4);
         cars2 = service.createCars(10);
         cars3 = service.createCars(10);
@@ -57,10 +94,94 @@ public class SelectionView implements Serializable {
         cars5 = service.createCars(10);
         cars6 = service.createCars(10);
         testImg = "<br><img src=\"previous_16.png\"/>";
+
+
+        themes = new ArrayList<Theme>();
+        themes.add(new Theme(0, "Afterdark", "afterdark"));
+        themes.add(new Theme(1, "Afternoon", "afternoon"));
+        themes.add(new Theme(2, "Afterwork", "afterwork"));
+        themes.add(new Theme(3, "Aristo", "aristo"));
+        themes.add(new Theme(4, "Black-Tie", "black-tie"));
+        themes.add(new Theme(5, "Blitzer", "blitzer"));
+        themes.add(new Theme(6, "Bluesky", "bluesky"));
+        themes.add(new Theme(7, "Bootstrap", "bootstrap"));
+        themes.add(new Theme(8, "Casablanca", "casablanca"));
+        themes.add(new Theme(9, "Cupertino", "cupertino"));
+        themes.add(new Theme(10, "Cruze", "cruze"));
+        themes.add(new Theme(11, "Dark-Hive", "dark-hive"));
+        themes.add(new Theme(12, "Delta", "delta"));
+        themes.add(new Theme(13, "Dot-Luv", "dot-luv"));
+        themes.add(new Theme(14, "Eggplant", "eggplant"));
+        themes.add(new Theme(15, "Excite-Bike", "excite-bike"));
+        themes.add(new Theme(16, "Flick", "flick"));
+        themes.add(new Theme(17, "Glass-X", "glass-x"));
+        themes.add(new Theme(18, "Home", "home"));
+        themes.add(new Theme(19, "Hot-Sneaks", "hot-sneaks"));
+        themes.add(new Theme(20, "Humanity", "humanity"));
+        themes.add(new Theme(21, "Le-Frog", "le-frog"));
+        themes.add(new Theme(22, "Midnight", "midnight"));
+        themes.add(new Theme(23, "Mint-Choc", "mint-choc"));
+        themes.add(new Theme(24, "Overcast", "overcast"));
+        themes.add(new Theme(25, "Pepper-Grinder", "pepper-grinder"));
+        themes.add(new Theme(26, "Redmond", "redmond"));
+        themes.add(new Theme(27, "Rocket", "rocket"));
+        themes.add(new Theme(28, "Sam", "sam"));
+        themes.add(new Theme(29, "Smoothness", "smoothness"));
+        themes.add(new Theme(30, "South-Street", "south-street"));
+        themes.add(new Theme(31, "Start", "start"));
+        themes.add(new Theme(32, "Sunny", "sunny"));
+        themes.add(new Theme(33, "Swanky-Purse", "swanky-purse"));
+        themes.add(new Theme(34, "Trontastic", "trontastic"));
+        themes.add(new Theme(35, "UI-Darkness", "ui-darkness"));
+        themes.add(new Theme(36, "UI-Lightness", "ui-lightness"));
+        themes.add(new Theme(37, "Vader", "vader"));
+
+
+        cars2 = service.createCars(10);
+    }
+
+    public void submitThemes() {
+        System.out.println(selectedThemes);
+    }
+
+    public List<Theme> getThemes() {
+        return themes;
     }
 
     public List<Car> getCars1() {
         return cars1;
+    }
+
+    public Integer getIntValue() {
+        return intValue;
+    }
+
+    public void setIntValue(Integer intValue) {
+        this.intValue = intValue;
+    }
+
+    public String getTestSOM() {
+        return testSOM;
+    }
+
+    public void setTestSOM(String testSOM) {
+        this.testSOM = testSOM;
+    }
+
+    public String getMaxIntValue() {
+        return maxIntValue;
+    }
+
+    public void setMaxIntValue(String maxIntValue) {
+        this.maxIntValue = maxIntValue;
+    }
+
+    public List<Theme> getSelectedThemes() {
+        return selectedThemes;
+    }
+
+    public void setSelectedThemes(List<Theme> selectedThemes) {
+        this.selectedThemes = selectedThemes;
     }
 
     public String getMobilePhone() {
@@ -161,6 +282,18 @@ public class SelectionView implements Serializable {
     public void onRowUnselect(UnselectEvent event) {
         FacesMessage msg = new FacesMessage("Car Unselected", ((Car) event.getObject()).getId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        System.out.println(cars2.get(event.getRowIndex()).getYear());
+
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void testt() {
