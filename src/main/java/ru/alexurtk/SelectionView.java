@@ -52,6 +52,10 @@ public class SelectionView implements Serializable {
     private Integer intValue;
     private String maxIntValue;
     private String testSOM;
+    private boolean switchCheckBox;
+    private boolean switchCheckBoxFlag;
+    private boolean checked;
+    private String keyedinContent;
 
 
     /****/
@@ -84,6 +88,8 @@ public class SelectionView implements Serializable {
 
     @PostConstruct
     public void init() {
+
+        switchCheckBoxFlag = false;
 
         maxIntValue = "10";
 
@@ -140,8 +146,50 @@ public class SelectionView implements Serializable {
         cars2 = service.createCars(10);
     }
 
+    public String getKeyedinContent() {
+        return keyedinContent;
+    }
+
+    public void testKeyedinContent(){
+        System.out.println("keyedinContent: "+keyedinContent);
+    }
+
+    public void setKeyedinContent(String keyedinContent) {
+        this.keyedinContent = keyedinContent;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public void switchFlag(){
+        switchCheckBoxFlag = !switchCheckBoxFlag;
+        System.out.println("switchCheckBoxFlag: "+switchCheckBoxFlag);
+        System.out.println("switchCheckBox: "+switchCheckBox);
+    }
+
     public void submitThemes() {
         System.out.println(selectedThemes);
+    }
+
+    public boolean isSwitchCheckBox() {
+        return switchCheckBox;
+    }
+
+    public void setSwitchCheckBox(boolean switchCheckBox) {
+        this.switchCheckBox = switchCheckBox;
+    }
+
+    public boolean isSwitchCheckBoxFlag() {
+        return switchCheckBoxFlag;
+    }
+
+    public void setSwitchCheckBoxFlag(boolean switchCheckBoxFlag) {
+        this.switchCheckBoxFlag = switchCheckBoxFlag;
     }
 
     public List<Theme> getThemes() {

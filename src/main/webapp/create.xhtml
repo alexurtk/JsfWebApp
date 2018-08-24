@@ -18,6 +18,38 @@
         <br/>
         <br/>
 
+        <p:selectBooleanCheckbox id="checkboxId1" value="#{dtSelectionView.switchCheckBox}">
+            <p:ajax event="change" update="panelId2"/>
+        </p:selectBooleanCheckbox>
+        <p:outputPanel id="panelId2">
+            <p:fieldset id="testFieldSet" legend="Тестовая область" rendered="#{!dtSelectionView.switchCheckBox}">
+                <h:outputLabel id="testText1" value="Проверка отображения области" rendered="#{!dtSelectionView.switchCheckBox}"/>
+                <br/>
+                <h:outputText id="testText2" value="Visible" rendered="#{!dtSelectionView.switchCheckBox}"/>
+            </p:fieldset>
+        </p:outputPanel>
+        <br/>
+        <br/>
+
+        <h:selectBooleanCheckbox id="checkboxId" value="#{dtSelectionView.checked}" >
+            <p:ajax event="change" update="panelId" />
+        </h:selectBooleanCheckbox>
+
+        <h:panelGrid id="panelId" style="border:solid 1px black;" >
+            <h:outputLabel rendered="#{!dtSelectionView.checked}" >some text</h:outputLabel>
+            <h:outputText rendered="#{!dtSelectionView.checked}" value="some text 2" />
+        </h:panelGrid>
+
+        <br/>
+        <br/>
+        <p:inputTextarea id="dumpnotes" value="#{dtSelectionView.keyedinContent}" style="color: #000000">
+            <p:ajax event="keyup" update="saveButton" />
+        </p:inputTextarea>
+        <p:commandButton id="saveButton" value="При вводе будет доступно" actionListener="#{dtSelectionView.testKeyedinContent}" disabled="#{empty dtSelectionView.keyedinContent}" />
+        <br/>
+        <br/>
+
+
         <h:outputLabel for="testNumber" value="Number:" style="font-weight:bold"/>
         <p:inputText id="testNumber" value="#{dtSelectionView.intValue}" label="Number" validatorMessage="Согласай выплату!">
             <f:validateDoubleRange minimum="0" maximum="#{dtSelectionView.maxIntValue}" />
