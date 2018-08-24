@@ -48,8 +48,19 @@
         <p:commandButton id="saveButton" value="При вводе будет доступно" actionListener="#{dtSelectionView.testKeyedinContent}" disabled="#{empty dtSelectionView.keyedinContent}" />
         <br/>
         <br/>
+        <p:selectOneMenu id="paymentReasons" value="#{dtSelectionView.paymentReason}">
+            <f:selectItem itemLabel="Не выбрано" itemValue="#{null}" noSelectionOption="true"/>
+            <f:selectItems value="#{dtSelectionView.availablePaymentReasons}"/>
+            <p:ajax event="change" update="panelId3" listener="#{dtSelectionView.selectPaymentReason}"/>
+        </p:selectOneMenu>
+        <p:outputPanel id="panelId3">
+            <p:inputText id="anotherReason"
+                         value="#{dtSelectionView.anotherReason}"
+                         rendered="#{dtSelectionView.paymentReason eq 'Другая'}">
+            </p:inputText>
+        </p:outputPanel>
 
-
+        <br/>
         <h:outputLabel for="testNumber" value="Number:" style="font-weight:bold"/>
         <p:inputText id="testNumber" value="#{dtSelectionView.intValue}" label="Number" validatorMessage="Согласай выплату!">
             <f:validateDoubleRange minimum="0" maximum="#{dtSelectionView.maxIntValue}" />
